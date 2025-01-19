@@ -50,6 +50,22 @@ async function formRoutes(app: FastifyInstance) {
       }
     },
   });
+
+  // ENDPOINT 3: get all forms
+  app.get<{
+    Reply: Form[]
+  }>('/', {
+    async handler(req, reply) {
+      log.debug('get all forms')
+      try {
+        const forms = await prisma.form.findMany()
+        reply.send(forms)
+      } catch (err: any) {
+        log.error({ err }, err.message)
+        throw new ApiError('failed to fetch forms', 400)
+      }
+    },
+  });
 }
 
 export default formRoutes
