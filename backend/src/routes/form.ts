@@ -51,7 +51,7 @@ async function formRoutes(app: FastifyInstance) {
     },
   });
 
-  // ENDPOINT 3: get all forms
+  // ENDPOINT 4: get all forms
   app.get<{
     Reply: Form[]
   }>('/', {

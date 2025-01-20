@@ -3,4 +3,19 @@ export type SourceRecordType = {
   formId: string;
 };
 
+export type SourceDataType = {
+  id: string;
+  question: string;
+  answer: string;
+  sourceRecordId: string;
+};
+
+export type recordView = {
+  id: string;
+  formName: string;
+  sourceData: SourceDatas;
+};
+
 export type SourceRecords = SourceRecordType[];
+
+export type SourceDatas = SourceDataType[];

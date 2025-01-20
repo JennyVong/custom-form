@@ -77,7 +77,7 @@ function FormPreview() {
       padding="lg"
       style={{
         maxWidth: "800px",
-        margin: "0 auto",
+        margin: "auto",
         backgroundColor: "var(--black-secondary)",
       }}
     >

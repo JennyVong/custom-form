@@ -9,6 +9,14 @@ import formAPIClient from "./APIClients/FormAPIClient";
 import SavedForms from "./components/FormView/SavedForms";
 import Form from "./components/FormView/Form";
 import AccordianComponent from "./components/Accordian";
+import sourceRecordAPIClient from "./APIClients/SourceRecordAPIClient";
+import {
+  SourceDatas,
+  SourceRecords,
+  RecordView,
+} from "./types/SourceRecordTypes";
+import SavedFormRecords from "./components/FormView/SavedFormRecords";
+import FormRecord from "./components/FormView/FormRecord";
 
 export default function Home() {
   const [rootRef, setRootRef] = useState<HTMLDivElement | null>(null);
@@ -17,7 +25,10 @@ export default function Home() {
     Record<string, HTMLButtonElement | null>
   >({});
   const [forms, setForms] = useState<Forms | []>([]);
+  const [records, setRecords] = useState<SourceRecords>([]);
   const [selectedForm, setForm] = useState<FormType>();
+  const [views, setViews] = useState<RecordView[]>([]);
+  const [selectedView, setView] = useState<RecordView>();
 
   const setControlRef = (val: string) => (node: HTMLButtonElement) => {
     controlsRefs[val] = node;
@@ -28,9 +39,36 @@ export default function Home() {
     setForm(form);
   };
 
+  const handleViewSelect = (form: RecordView) => {
+    setView(form);
+  };
+
   const fetchForms = async () => {
     const collectedForms = await formAPIClient.getAllForms();
     setForms(collectedForms);
+  };
+
+  const savedData = async () => {
+    const collectedView = await Promise.all(
+      records.map(async (record) => {
+        const form = await formAPIClient.getById(record.formId);
+        const collectedSourceData = await sourceRecordAPIClient.getSourceData(
+          record.id
+        );
+        return {
+          id: record.id,
+          formName: form.name,
+          sourceData: collectedSourceData,
+        };
+      })
+    );
+    setViews(collectedView);
+  };
+
+  const fetchRecords = async () => {
+    const collectedRecords = await sourceRecordAPIClient.getAllRecords();
+    setRecords(collectedRecords);
+    savedData();
   };
 
   useEffect(() => {
@@ -38,7 +76,13 @@ export default function Home() {
       const collectedForms = await formAPIClient.getAllForms();
       setForms(collectedForms);
     };
+    const fetchRecords = async () => {
+      const collectedRecords = await sourceRecordAPIClient.getAllRecords();
+      setRecords(collectedRecords);
+      savedData();
+    };
     fetchForms();
+    fetchRecords();
   }, []);
 
   return (
@@ -59,6 +103,7 @@ export default function Home() {
             backgroundColor: "#2C2C2C",
             borderRight: "1px solid var(--black-tertiary)",
             padding: "20px",
+            overflowY: "auto",
           }}
         >
           <Title order={1} style={{ marginBottom: "20px" }}>
@@ -94,6 +139,7 @@ export default function Home() {
                 value="3"
                 ref={setControlRef("3")}
                 className={styles.tab}
+                onClick={fetchRecords}
               >
                 Records
               </Tabs.Tab>
@@ -123,7 +169,18 @@ export default function Home() {
                   />
                 ))}
             </Tabs.Panel>
-            <Tabs.Panel value="3">Third tab content</Tabs.Panel>
+            <Tabs.Panel value="3">
+              {views.length > 0 &&
+                views.map((view) => (
+                  <SavedFormRecords
+                    key={view.id}
+                    id={view.id}
+                    formName={view.formName}
+                    sourceData={view.sourceData}
+                    onFormSelect={handleViewSelect}
+                  />
+                ))}
+            </Tabs.Panel>
           </Tabs>
         </div>
 
@@ -136,14 +193,22 @@ export default function Home() {
           }}
         >
           {/* Main Form Builder Preview */}
-          {value == "1" && <FormPreview />}
+          {value === "1" && <FormPreview />}
 
           {/* Main Form Viewer */}
-          {value == "2" && selectedForm && (
+          {value === "2" && selectedForm && (
             <Form
               formId={selectedForm.id}
               name={selectedForm.name}
               fields={selectedForm.fields}
+            />
+          )}
+          {/* Main Form Viewer with filled out values */}
+          {value === "3" && selectedView && (
+            <FormRecord
+              id={selectedView.id}
+              formName={selectedView.formName}
+              sourceData={selectedView.sourceData}
             />
           )}
         </div>

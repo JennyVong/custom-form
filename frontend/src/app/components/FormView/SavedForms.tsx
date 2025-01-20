@@ -1,11 +1,11 @@
 import { Card, Text } from "@mantine/core";
-import { FormFields } from "../../types/FormFieldTypes";
+import { FormFieldType } from "../../types/FormFieldTypes";
 import { FormType } from "../../types/FormType";
 
 interface SavedFormsProps {
   id: string;
   name: string;
-  fields: FormFields;
+  fields: FormFieldType[];
   onFormSelect: (form: FormType) => void;
 }
 
