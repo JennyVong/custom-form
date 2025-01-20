@@ -23,8 +23,12 @@ function AccordianComponent() {
     <Accordion.Item key={index} value={item.title}>
       <Accordion.Control>{item.title}</Accordion.Control>
       <Accordion.Panel>
-        {item.components.map((component) => (
-          <DraggableElement type={component.type} label={component.label} />
+        {item.components.map((component, index) => (
+          <DraggableElement
+            key={index}
+            type={component.type}
+            label={component.label}
+          />
         ))}
       </Accordion.Panel>
     </Accordion.Item>

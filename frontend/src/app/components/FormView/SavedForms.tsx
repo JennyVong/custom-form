@@ -5,7 +5,7 @@ import { FormType } from "../../types/FormType";
 interface SavedFormsProps {
   id: string;
   name: string;
-  fields: FormFieldType[];
+  fields: Record<string, FormFieldType>[];
   onFormSelect: (form: FormType) => void;
 }
 

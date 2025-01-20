@@ -19,12 +19,13 @@ export type FormProps = {
 };
 
 function Form({ formId, name, fields }: FormProps) {
-  const transformedFields = Object.entries(fields).map(([id, field]) => ({
-    id: id,
-    type: field.type,
-    question: field.question,
-    required: field.required,
-    options: field.options ? field.options : [],
+  const keys = Object.keys(fields);
+  const transformedFields = keys.map((key) => ({
+    id: key,
+    type: fields[key].type,
+    question: fields[key].question,
+    required: fields[key].required,
+    options: fields[key].options ? fields[key].options : [],
   }));
 
   const initialValues = transformedFields.reduce((acc, field) => {

@@ -3,7 +3,7 @@ import { FormFieldType } from "./FormFieldTypes";
 export type FormType = {
   id: string;
   name: string;
-  fields: FormFieldType[];
+  fields: Record<string, FormFieldType>[];
 };
 
 export type Forms = FormType[];
