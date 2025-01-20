@@ -7,6 +7,9 @@ interface AddOptionsProps {
   onSave: (options: string[]) => void;
 }
 
+{
+  /* Handle feature to add custom options to multiselect input */
+}
 function AddOptions({ field, onSave }: AddOptionsProps) {
   const [options, setOptions] = useState(field.options || []);
 

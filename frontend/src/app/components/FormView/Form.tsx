@@ -19,6 +19,9 @@ export type FormProps = {
 };
 
 function Form({ formId, name, fields }: FormProps) {
+  {
+    /* Change format of fields to include id of field */
+  }
   const keys = Object.keys(fields);
   const transformedFields = keys.map((key) => ({
     id: key,
@@ -28,16 +31,25 @@ function Form({ formId, name, fields }: FormProps) {
     options: fields[key].options ? fields[key].options : [],
   }));
 
+  {
+    /* initialize field with initial vlaues */
+  }
   const initialValues = transformedFields.reduce((acc, field) => {
     acc[field.id] = "";
     return acc;
   }, []);
 
+  {
+    /* initialize form with initial vlaues */
+  }
   const form = useForm({
     mode: "uncontrolled",
     initialValues: initialValues,
   });
 
+  {
+    /* create question-answer tuples */
+  }
   const mapQuestionToAnswer = (
     values: typeof form.values,
     field: {
@@ -54,6 +66,9 @@ function Form({ formId, name, fields }: FormProps) {
     };
   };
 
+  {
+    /* Create new source record */
+  }
   const handleSubmit = (values: typeof form.values) => {
     const questions = transformedFields.map((field) =>
       mapQuestionToAnswer(values, field)
@@ -76,6 +91,8 @@ function Form({ formId, name, fields }: FormProps) {
       <Title order={1} style={{ marginBottom: "20px" }}>
         {name}
       </Title>
+
+      {/* rendering of input fields */}
       <form onSubmit={form.onSubmit(handleSubmit)}>
         {transformedFields.map((field) => (
           <div key={field.id} style={{ marginBottom: "10px" }}>
@@ -123,6 +140,8 @@ function Form({ formId, name, fields }: FormProps) {
             )}
           </div>
         ))}
+
+        {/* submit form button */}
         <Group justify="flex-end" mt="md">
           <Button color="violet" type="submit">
             Submit

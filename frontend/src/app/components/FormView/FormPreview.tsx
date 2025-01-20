@@ -26,7 +26,9 @@ function FormPreview() {
   const [name, setName] = useState<string>("");
   const [fields, setFields] = useState<Field[]>([]);
 
-  // Handle drop logic
+  {
+    /* Handle drop logic */
+  }
   const handleDrop = (item: any, index: number) => {
     const newField: Field = {
       id: uuidv4(),
@@ -43,6 +45,9 @@ function FormPreview() {
     });
   };
 
+  {
+    /* handle required field logic */
+  }
   const toggleRequired = (id: string) => {
     setFields((prev) =>
       prev.map((field) =>
@@ -51,6 +56,9 @@ function FormPreview() {
     );
   };
 
+  {
+    /* Handle update label logic */
+  }
   const updateLabel = (id: string, newLabel: string) => {
     setFields((prev) =>
       prev.map((field) =>
@@ -59,10 +67,16 @@ function FormPreview() {
     );
   };
 
+  {
+    /* Handle remove input field logic */
+  }
   const removeField = (id: string) => {
     setFields((prev) => prev.filter((field) => field.id !== id));
   };
 
+  {
+    /* Handle update dropdown multiselect options logic */
+  }
   const updateOptions = (id: string, updatedOptions: string[]) => {
     setFields((prev) =>
       prev.map((field) =>
@@ -169,6 +183,7 @@ function FormPreview() {
           index={fields.length}
           onDrop={handleDrop}
         />
+        {/* Save newly created form button */}
         {fields.length > 0 && (
           <Button
             onClick={() => FormAPIClient.post(name, fields)}

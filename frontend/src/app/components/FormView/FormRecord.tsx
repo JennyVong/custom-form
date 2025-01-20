@@ -21,6 +21,7 @@ function FormRecord({ id, formName, sourceData }: FormRecordProps) {
       <Title order={1} style={{ marginBottom: "20px" }}>
         {formName}
       </Title>
+      {/* Render question-answer tuples */}
       {sourceData.map((sd, index) => (
         <div key={index} style={{ marginBottom: "10px" }}>
           <Text>{sd.question}</Text>

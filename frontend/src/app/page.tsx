@@ -44,6 +44,9 @@ export default function Home() {
     setForms(collectedForms);
   };
 
+  {
+    /* Create view model type to easily access formName and source data */
+  }
   const savedData = async () => {
     const collectedView = await Promise.all(
       records.map(async (record) => {
@@ -123,6 +126,7 @@ export default function Home() {
                 Assets
               </Tabs.Tab>
 
+              {/* If new form is created, it will be fetched clicking on tab */}
               <Tabs.Tab
                 value="2"
                 ref={setControlRef("2")}
@@ -131,6 +135,8 @@ export default function Home() {
               >
                 Forms
               </Tabs.Tab>
+
+              {/* If new record is created, it will be fetched clicking on tab */}
               <Tabs.Tab
                 value="3"
                 ref={setControlRef("3")}
