@@ -31,12 +31,24 @@ curl --location 'http://127.0.0.1:8080/form/{insert your generated form id here}
 
 ## Design
 
-- [Figma](https://www.figma.com/design/3rPmGytNsGuj4qWZj19482/Untitled?node-id=0-1&t=M4MtpwJCWGGLhpZe-1)
-  All components and initial design were done in figma before developing frontend
+- [Figma File](https://www.figma.com/design/3rPmGytNsGuj4qWZj19482/Untitled?node-id=0-1&t=M4MtpwJCWGGLhpZe-1)
 
+  - All components and initial design were done in figma before developing frontend
   - Somewhat inspired by figma, there is a tab for viewing usable components, a tab to view created forms, tab for viewing filled out forms
   - components are draggable onto the form builder for more interactive feel and ease of use
   - components are categorized into general components that can be further customized if adding additional input fields (ex. name, time, file upload, etc. )
+
+## Features / Tasks Completed
+
+- Frontend UI
+  - Create and save form
+  - view saved forms
+  - fill in and save source records of saved forms
+  - view source records
+  - additional details on styling features discusessed in Design with figma file to view
+- Backend
+  - Form API Endpoints: POST, GET (all, by formId)
+  - Source Record API Endpoints: POST, GET (all), GET source data (by sourceRecordId)
 
 ## REST API Documentation
 
