@@ -31,7 +31,7 @@ curl --location 'http://127.0.0.1:8080/form/{insert your generated form id here}
 
 ## Design
 
-- [Figma File](https://www.figma.com/design/3rPmGytNsGuj4qWZj19482/Untitled?node-id=0-1&t=M4MtpwJCWGGLhpZe-1)
+- [Figma File](https://www.figma.com/design/3rPmGytNsGuj4qWZj19482/Form-Builder?node-id=0-1&t=QOTRrM4QFHkhFp48-1)
 
   - All components and initial design were done in figma before developing frontend
   - Somewhat inspired by figma, there is a tab for viewing usable components, a tab to view created forms, tab for viewing filled out forms
