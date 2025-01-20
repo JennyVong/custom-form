@@ -60,6 +60,7 @@ function Form({ formId, name, fields }: FormProps) {
     );
     console.log(questions);
     sourceRecordAPIClient.post(formId, questions);
+    form.reset();
   };
 
   return (
@@ -97,7 +98,8 @@ function Form({ formId, name, fields }: FormProps) {
                 })}
               />
             )}
-            {field.type.toString() === "date" && (
+            {(field.type.toString() === "date" ||
+              field.type.toString() === "datetime") && (
               <TextInput
                 required={field.required}
                 label={field.question}
