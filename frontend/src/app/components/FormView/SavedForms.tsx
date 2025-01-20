@@ -1,6 +1,6 @@
 import { Card, Text } from "@mantine/core";
-import { FormFields } from "../types/FormFieldTypes";
-import { FormType } from "../types/FormType";
+import { FormFields } from "../../types/FormFieldTypes";
+import { FormType } from "../../types/FormType";
 
 interface SavedFormsProps {
   id: string;

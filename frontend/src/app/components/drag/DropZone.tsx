@@ -11,7 +11,7 @@ interface DropZoneProps {
 
 function DropZone({ index, onDrop, isFinal, children }: DropZoneProps) {
   const [, drop] = useDrop(() => ({
-    accept: ["text", "checkbox", "date"],
+    accept: ["text", "checkbox", "date", "multiselect"],
     drop: (item) => onDrop(item, index),
   }));
 

@@ -1,9 +1,9 @@
-import { FormFields } from "./FormFieldTypes";
+import { FormFieldType } from "./FormFieldTypes";
 
 export type FormType = {
   id: string;
   name: string;
-  fields: FormFields;
+  fields: FormFieldType[];
 };
 
 export type Forms = FormType[];

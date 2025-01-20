@@ -2,15 +2,24 @@
 
 import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import { TextInput, Checkbox, Button, Switch, Card } from "@mantine/core";
-import DropZone from "./DropZone";
-import FormAPIClient from "../APIClients/FormAPIClient";
+import {
+  TextInput,
+  Checkbox,
+  Button,
+  Switch,
+  Card,
+  MultiSelect,
+} from "@mantine/core";
+import DropZone from "../Drag/DropZone";
+import FormAPIClient from "../../APIClients/FormAPIClient";
+import AddOptions from "../AddOptions";
 
 interface Field {
   id: string;
   type: string;
   question: string;
   required: boolean;
+  options?: string[];
 }
 
 function FormPreview() {
@@ -24,6 +33,7 @@ function FormPreview() {
       type: item.type,
       question: "",
       required: false,
+      options: [],
     };
     setFields((prev) => {
       if (index >= prev.length) {
@@ -51,6 +61,14 @@ function FormPreview() {
 
   const removeField = (id: string) => {
     setFields((prev) => prev.filter((field) => field.id !== id));
+  };
+
+  const updateOptions = (id: string, updatedOptions: string[]) => {
+    setFields((prev) =>
+      prev.map((field) =>
+        field.id === id ? { ...field, options: updatedOptions } : field
+      )
+    );
   };
 
   return (
@@ -95,8 +113,9 @@ function FormPreview() {
             <div style={{ display: "flex", flexDirection: "row" }}>
               {/* Editable Label */}
               <TextInput
+                required
                 variant="unstyled"
-                placeholder="label input"
+                placeholder="input question here"
                 value={field.question}
                 onChange={(e) => updateLabel(field.id, e.currentTarget.value)}
                 style={{ marginBottom: "5px", flex: 1 }}
@@ -114,9 +133,23 @@ function FormPreview() {
             {/* Render the actual field */}
             <div style={{ marginBottom: "10px" }}>
               {field.type === "text" && <TextInput placeholder="Text Field" />}
-              {field.type === "checkbox" && <Checkbox label="Checkbox" />}
+              {field.type === "checkbox" && <Checkbox />}
               {field.type === "date" && (
                 <TextInput placeholder="Date Field" type="date" />
+              )}
+              {field.type === "multiselect" && (
+                <div>
+                  <MultiSelect
+                    placeholder="create options using input below"
+                    data={field.options || []}
+                  />
+                  <AddOptions
+                    field={field}
+                    onSave={(updatedOptions) =>
+                      updateOptions(field.id, updatedOptions)
+                    }
+                  />
+                </div>
               )}
             </div>
             {/* Remove Field Button */}
@@ -135,7 +168,7 @@ function FormPreview() {
           key={`zone-${fields.length}`}
           index={fields.length}
           onDrop={handleDrop}
-        ></DropZone>
+        />
         {fields.length > 0 && (
           <Button
             onClick={() => FormAPIClient.post(name, fields)}

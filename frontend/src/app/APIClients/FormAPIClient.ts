@@ -12,6 +12,7 @@ interface Field {
   type: string;
   question: string;
   required: boolean;
+  options?: string[];
 }
 
 const getById = async (form_id: string): Promise<FormType> => {
@@ -54,6 +55,7 @@ const post = async (name: string, fields: Field[]): Promise<FormType> => {
         type: field.type,
         question: field.question,
         required: field.required,
+        options: field.options ? field.options : [],
       };
       return acc;
     }, {});
@@ -63,7 +65,6 @@ const post = async (name: string, fields: Field[]): Promise<FormType> => {
       fields: fieldMap,
     };
 
-    console.log(formData);
     const response = await baseAPIClient.post("/form", formData);
     const data = await response.data.data;
     const mappedForm: FormType = {
@@ -71,7 +72,7 @@ const post = async (name: string, fields: Field[]): Promise<FormType> => {
       name: data.name,
       fields: data.fields,
     };
-    console.log(mappedForm);
+    alert("form successfully created !");
     return mappedForm;
   } catch (error) {
     throw new Error("Error: cannot generate new form");

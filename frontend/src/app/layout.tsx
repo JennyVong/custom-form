@@ -8,7 +8,7 @@ import {
   mantineHtmlProps,
 } from "@mantine/core";
 
-import DragDropContextProvider from "./components/drag/DragDropContext";
+import DragDropContextProvider from "./components/Drag/DragDropContext";
 
 export const metadata = {
   title: "My Mantine app",

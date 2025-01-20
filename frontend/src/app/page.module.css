@@ -107,6 +107,8 @@ a.secondary {
 .list {
   position: relative;
   margin-bottom: var(--mantine-spacing-md);
+  border-bottom: 1px solid var(--black-tertiary);
+  padding-bottom: 10px;
 }
 
 .indicator {

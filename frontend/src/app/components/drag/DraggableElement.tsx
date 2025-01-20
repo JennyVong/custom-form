@@ -29,12 +29,4 @@ function DraggableElement({ type, label }: DraggableElementProps) {
   );
 }
 
-export const TextField = () => (
-  <DraggableElement type="text" label="Text Field" />
-);
-export const Checkbox = () => (
-  <DraggableElement type="checkbox" label="Checkbox" />
-);
-export const DateField = () => (
-  <DraggableElement type="date" label="Date Field" />
-);
+export default DraggableElement;

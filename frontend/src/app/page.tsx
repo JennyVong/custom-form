@@ -1,18 +1,14 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import FormPreview from "./components/FormPreview";
+import FormPreview from "./components/FormView/FormPreview";
 import styles from "./page.module.css";
 import { Container, FloatingIndicator, Tabs, Title } from "@mantine/core";
-import {
-  DateField,
-  Checkbox,
-  TextField,
-} from "./components/drag/DragComponent";
 import { Forms, FormType } from "./types/FormType";
 import formAPIClient from "./APIClients/FormAPIClient";
-import SavedForms from "./components/SavedForms";
-import Form from "./components/Form";
+import SavedForms from "./components/FormView/SavedForms";
+import Form from "./components/FormView/Form";
+import AccordianComponent from "./components/Accordian";
 
 export default function Home() {
   const [rootRef, setRootRef] = useState<HTMLDivElement | null>(null);
@@ -30,7 +26,11 @@ export default function Home() {
 
   const handleFormSelect = (form: FormType) => {
     setForm(form);
-    console.log(form);
+  };
+
+  const fetchForms = async () => {
+    const collectedForms = await formAPIClient.getAllForms();
+    setForms(collectedForms);
   };
 
   useEffect(() => {
@@ -64,7 +64,15 @@ export default function Home() {
           <Title order={1} style={{ marginBottom: "20px" }}>
             Form Builder
           </Title>
-          <Tabs variant="none" value={value} onChange={setValue}>
+          <Tabs
+            style={{
+              borderTop: "1px solid var(--black-tertiary)",
+              paddingTop: "10px",
+            }}
+            variant="none"
+            value={value}
+            onChange={setValue}
+          >
             <Tabs.List ref={setRootRef} className={styles.list}>
               <Tabs.Tab
                 value="1"
@@ -73,10 +81,12 @@ export default function Home() {
               >
                 Assets
               </Tabs.Tab>
+
               <Tabs.Tab
                 value="2"
                 ref={setControlRef("2")}
                 className={styles.tab}
+                onClick={fetchForms}
               >
                 Forms
               </Tabs.Tab>
@@ -95,11 +105,12 @@ export default function Home() {
               />
             </Tabs.List>
 
+            {/* Main Form Builder Tab with usable components */}
             <Tabs.Panel value="1">
-              <TextField />
-              <Checkbox />
-              <DateField />
+              <AccordianComponent />
             </Tabs.Panel>
+
+            {/* Created Forms available to view and fill in */}
             <Tabs.Panel value="2">
               {forms.length > 0 &&
                 forms.map((form) => (
@@ -116,7 +127,7 @@ export default function Home() {
           </Tabs>
         </div>
 
-        {/* Main Form Builder */}
+        {/* Right side */}
         <div
           style={{
             flex: 1,
@@ -124,7 +135,10 @@ export default function Home() {
             marginTop: "50px",
           }}
         >
+          {/* Main Form Builder Preview */}
           {value == "1" && <FormPreview />}
+
+          {/* Main Form Viewer */}
           {value == "2" && selectedForm && (
             <Form
               formId={selectedForm.id}
