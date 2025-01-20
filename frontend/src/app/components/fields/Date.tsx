@@ -8,7 +8,7 @@ function DateInputComponent() {
     <DateInput
       value={value}
       onChange={setValue}
-      label="Date input"
+      label="Date"
       placeholder="Date input"
       valueFormat="DD/MM/YYYY"
     />

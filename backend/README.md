@@ -12,6 +12,10 @@
 curl --location 'http://127.0.0.1:8080/form/{insert your generated form id here}' --header 'Content-Type: application/json'
 ```
 
+## Access the Database
+- `docker exec -it vial-backend-b bash -c "psql -U vial"`
+
+
 ## Introduction
 The purpose of this project is to evaluate your full stack web development skills with an example project that closely resembles your day to day tasks at Vial. 
 

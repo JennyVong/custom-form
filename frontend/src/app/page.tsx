@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import FormPreview from "./components/FormPreview";
 import styles from "./page.module.css";
 import { Container, FloatingIndicator, Tabs, Title } from "@mantine/core";
@@ -9,6 +9,10 @@ import {
   Checkbox,
   TextField,
 } from "./components/drag/DragComponent";
+import { Forms, FormType } from "./types/FormType";
+import formAPIClient from "./APIClients/FormAPIClient";
+import SavedForms from "./components/SavedForms";
+import Form from "./components/Form";
 
 export default function Home() {
   const [rootRef, setRootRef] = useState<HTMLDivElement | null>(null);
@@ -16,10 +20,27 @@ export default function Home() {
   const [controlsRefs, setControlsRefs] = useState<
     Record<string, HTMLButtonElement | null>
   >({});
+  const [forms, setForms] = useState<Forms | []>([]);
+  const [selectedForm, setForm] = useState<FormType>();
+
   const setControlRef = (val: string) => (node: HTMLButtonElement) => {
     controlsRefs[val] = node;
     setControlsRefs(controlsRefs);
   };
+
+  const handleFormSelect = (form: FormType) => {
+    setForm(form);
+    console.log(form);
+  };
+
+  useEffect(() => {
+    const fetchForms = async () => {
+      const collectedForms = await formAPIClient.getAllForms();
+      setForms(collectedForms);
+    };
+    fetchForms();
+  }, []);
+
   return (
     <div className={styles.page}>
       <Container
@@ -79,7 +100,18 @@ export default function Home() {
               <Checkbox />
               <DateField />
             </Tabs.Panel>
-            <Tabs.Panel value="2">Second tab content</Tabs.Panel>
+            <Tabs.Panel value="2">
+              {forms.length > 0 &&
+                forms.map((form) => (
+                  <SavedForms
+                    key={form.id}
+                    id={form.id}
+                    name={form.name}
+                    fields={form.fields}
+                    onFormSelect={handleFormSelect}
+                  />
+                ))}
+            </Tabs.Panel>
             <Tabs.Panel value="3">Third tab content</Tabs.Panel>
           </Tabs>
         </div>
@@ -93,6 +125,13 @@ export default function Home() {
           }}
         >
           {value == "1" && <FormPreview />}
+          {value == "2" && selectedForm && (
+            <Form
+              formId={selectedForm.id}
+              name={selectedForm.name}
+              fields={selectedForm.fields}
+            />
+          )}
         </div>
       </Container>
     </div>

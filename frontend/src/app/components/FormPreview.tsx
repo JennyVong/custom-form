@@ -44,7 +44,7 @@ function FormPreview() {
   const updateLabel = (id: string, newLabel: string) => {
     setFields((prev) =>
       prev.map((field) =>
-        field.id === id ? { ...field, label: newLabel } : field
+        field.id === id ? { ...field, question: newLabel } : field
       )
     );
   };

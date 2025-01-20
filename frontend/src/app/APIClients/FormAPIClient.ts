@@ -1,9 +1,8 @@
 import baseAPIClient from "./BaseAPIClient";
-import { FormType } from "../types/FormType";
+import { Forms, FormType } from "../types/FormType";
 import { FormField } from "../types/FormFieldTypes";
 
 interface Form {
-  id: string;
   name: string;
   fields: object;
 }
@@ -18,9 +17,10 @@ interface Field {
 const getById = async (form_id: string): Promise<FormType> => {
   try {
     const response = await baseAPIClient.get(`/form/${form_id}`);
-    const data: Form = await response.data.data;
+    const data: FormType = await response.data.data;
 
     const mappedData: FormType = {
+      id: data.id,
       name: data.name,
       fields: data.fields,
     };
@@ -31,7 +31,23 @@ const getById = async (form_id: string): Promise<FormType> => {
   }
 };
 
-const post = async (name: string, fields: Field[]): Promise<Form> => {
+const getAllForms = async (): Promise<Forms> => {
+  try {
+    const response = await baseAPIClient.get(`/form`);
+    const data: Forms = await response.data.data;
+
+    const mappedForms: Forms = data.map((form) => ({
+      id: form.id,
+      name: form.name,
+      fields: form.fields,
+    }));
+    return mappedForms;
+  } catch (error) {
+    throw new Error("Error: can't get forms");
+  }
+};
+
+const post = async (name: string, fields: Field[]): Promise<FormType> => {
   try {
     const fieldMap = fields.reduce((acc: FormField, field: Field) => {
       acc[field.id] = {
@@ -50,7 +66,7 @@ const post = async (name: string, fields: Field[]): Promise<Form> => {
     console.log(formData);
     const response = await baseAPIClient.post("/form", formData);
     const data = await response.data.data;
-    const mappedForm: Form = {
+    const mappedForm: FormType = {
       id: data.id,
       name: data.name,
       fields: data.fields,
@@ -62,4 +78,4 @@ const post = async (name: string, fields: Field[]): Promise<Form> => {
   }
 };
 
-export default { getById, post };
+export default { getById, getAllForms, post };
