@@ -10,11 +10,7 @@ import SavedForms from "./components/FormView/SavedForms";
 import Form from "./components/FormView/Form";
 import AccordianComponent from "./components/Accordian";
 import sourceRecordAPIClient from "./APIClients/SourceRecordAPIClient";
-import {
-  SourceDatas,
-  SourceRecords,
-  RecordView,
-} from "./types/SourceRecordTypes";
+import { SourceRecords, RecordView } from "./types/SourceRecordTypes";
 import SavedFormRecords from "./components/FormView/SavedFormRecords";
 import FormRecord from "./components/FormView/FormRecord";
 

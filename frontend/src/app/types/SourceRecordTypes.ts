@@ -10,7 +10,7 @@ export type SourceDataType = {
   sourceRecordId: string;
 };
 
-export type recordView = {
+export type RecordView = {
   id: string;
   formName: string;
   sourceData: SourceDatas;
