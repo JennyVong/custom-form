@@ -6,16 +6,17 @@
 - `docker compose up --build`
 - `npm run migrate`
 - `npm run seed`
+- see app running here [http://localhost:3000/](http://localhost:3000/)
+
+## Access the Database
+
+- `docker exec -it vial-backend-b bash -c "psql -U vial"`
 - if you view your database, you should be able to see a populated form data table
 - running the following in your terminal will perform a GET request to fetch the form data
 
 ```bash
 curl --location 'http://127.0.0.1:8080/form/{insert your generated form id here}' --header 'Content-Type: application/json'
 ```
-
-## Access the Database
-
-- `docker exec -it vial-backend-b bash -c "psql -U vial"`
 
 ## Tech stack
 
@@ -26,10 +27,16 @@ curl --location 'http://127.0.0.1:8080/form/{insert your generated form id here}
 - [Prisma ORM](https://www.prisma.io/)
 - [PostgreSQL](https://www.postgresql.org/)
 - [Docker and Compose](https://www.docker.com/)
+- [PostMan](https://www.postman.com/) for testing APIs
 
 ## Design
 
 - [Figma](https://www.figma.com/design/3rPmGytNsGuj4qWZj19482/Untitled?node-id=0-1&t=M4MtpwJCWGGLhpZe-1)
+  All components and initial design were done in figma before developing frontend
+
+  - Somewhat inspired by figma, there is a tab for viewing usable components, a tab to view created forms, tab for viewing filled out forms
+  - components are draggable onto the form builder for more interactive feel and ease of use
+  - components are categorized into general components that can be further customized if adding additional input fields (ex. name, time, file upload, etc. )
 
 ## REST API Documentation
 
